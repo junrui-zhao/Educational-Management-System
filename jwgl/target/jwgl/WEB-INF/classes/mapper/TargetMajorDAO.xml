@@ -1,0 +1,25 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.TargetMajorDAO">
+
+    <!--通过开设id查询-->
+    <select id="queryTargetMajorById" parameterType="int" resultType="TargetMajorEntity">
+        SELECT * FROM tb_target_major WHERE open_id = #{openId};
+    </select>
+
+    <select id="queryOpenIdByMajor" parameterType="String" resultType="TargetMajorEntity">
+        SELECT * FROM tb_target_major WHERE major = #{major};
+    </select>
+
+    <insert id="insertTargetMajor">
+        INSERT INTO tb_target_major
+        VALUES(#{openId},#{major})
+    </insert>
+
+    <delete id="deleteTargetMajor">
+        DELETE FROM tb_target_major
+        WHERE open_id = #{openId} AND major = #{major}
+    </delete>
+
+</mapper>

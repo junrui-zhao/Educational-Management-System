@@ -1,0 +1,53 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.AdminDAO">
+
+    <!--通过管理员Id查询-->
+    <select id="queryAdminById" parameterType="int" resultType="AdminEntity">
+        SELECT * FROM tb_admin WHERE admin_id = #{adminId};
+    </select>
+
+    <insert id = "insertAdmin">
+        INSERT INTO tb_admin
+        VALUES (#{adminId},#{password})
+    </insert>
+
+    <delete id = "deleteAdmin">
+        DELETE
+        FROM  tb_admin
+        WHERE admin_id = #{adminId}
+    </delete>
+
+
+    <update id = "updateAdminPassword">
+        UPDATE tb_admin
+        SET password = #{password}
+        WHERE admin_id = #{adminId}
+    </update>
+
+    <select id = "selectAdmin" resultType = "AdminEntity">
+        SELECT *
+        FROM tb_admin
+        WHERE admin_id = #{adminId}
+    </select>
+
+    <select id="selectAllAdmin" resultType="AdminEntity">
+        SELECT *
+        FROM tb_admin
+    </select>
+
+
+    <select id="countAllAdmin" resultType="int">
+        SELECT COUNT(*) FROM tb_admin
+        WHERE admin_id LIKE concat(concat('%',#{adminProperty}),'%')
+    </select>
+
+    <select id="selectAdminByLimit" resultType="AdminEntity">
+        SELECT *
+        FROM tb_admin
+        WHERE admin_id LIKE concat(concat('%',#{adminProperty}),'%')
+        LIMIT #{index},#{count}
+    </select>
+
+</mapper>

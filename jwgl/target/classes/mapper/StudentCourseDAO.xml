@@ -1,0 +1,28 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.StudentCourseDAO">
+
+    <!--根据学生学号查询开设id-->
+    <select id="queryOpenIdByStudentId" parameterType="int" resultType="StudentCourseEntity">
+        SELECT * FROM tb_select_course WHERE student_id = #{studentId};
+    </select>
+
+    <!--根据开设id查询选课学生学号-->
+    <select id="queryStudentsByOpenId" parameterType="int" resultType="StudentCourseEntity">
+        SELECT * FROM tb_select_course WHERE open_id = #{openId};
+    </select>
+
+    <select id="queryStudentCourseByStudentAndOpenId" resultType="StudentCourseEntity">
+        SELECT * FROM tb_select_course WHERE student_id = #{0} AND open_id = #{1};
+    </select>
+
+    <insert id="insertCourse">
+        INSERT INTO tb_select_course(student_id, open_id)
+        VALUE (#{0}, #{1});
+    </insert>
+
+    <delete id="quitCourse">
+        DELETE FROM tb_select_course WHERE student_id = #{0} AND open_id = #{1};
+    </delete>
+</mapper>

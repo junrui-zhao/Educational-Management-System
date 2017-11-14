@@ -1,0 +1,67 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.InfoDAO">
+
+    <insert id = "insertInfo">
+       INSERT INTO tb_info(`title`,
+    `context`,
+    `time`,
+    `sender`,
+    `student_id`)
+        VALUES (#{title},#{context},#{time},#{sender},#{studentId})
+    </insert>
+
+    <delete id = "deleteInfo">
+        DELETE
+        FROM tb_info
+        WHERE id = #{id}
+    </delete>
+
+
+    <update id = "updateInfo">
+        UPDATE tb_info
+        SET title = #{title},context = #{context},time = #{time},sender = #{sender},student_id = #{studentId}
+        WHERE id = #{id}
+    </update>
+
+    <select id = "selectInfo" resultType = "InfoEntity">
+        SELECT *
+        FROM tb_info
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectAllInfo" resultType="InfoEntity">
+        SELECT *
+        FROM tb_info
+    </select>
+
+    <select id="selectRecentInfoByStudentId" resultType="InfoEntity">
+        SELECT *
+        FROM tb_info
+        WHERE student_id = #{studentId} AND DATEDIFF(NOW(),time) <![CDATA[ <= ]]> 21
+    </select>
+
+    <select id="countAllInfo" resultType="int">
+        SELECT COUNT(*) FROM tb_info
+        WHERE id LIKE concat(concat('%',#{infoProperty}),'%')
+        OR student_id LIKE concat(concat('%',#{infoProperty}),'%')
+        OR title LIKE concat(concat('%',#{infoProperty}),'%')
+        OR context LIKE concat(concat('%',#{infoProperty}),'%')
+        OR time LIKE concat(concat('%',#{infoProperty}),'%')
+        OR sender LIKE concat(concat('%',#{infoProperty}),'%')
+    </select>
+
+    <select id="selectInfoByLimit" resultType="InfoEntity">
+        SELECT *
+        FROM tb_info
+        WHERE id LIKE concat(concat('%',#{infoProperty}),'%')
+        OR student_id LIKE concat(concat('%',#{infoProperty}),'%')
+        OR title LIKE concat(concat('%',#{infoProperty}),'%')
+        OR context LIKE concat(concat('%',#{infoProperty}),'%')
+        OR time LIKE concat(concat('%',#{infoProperty}),'%')
+        OR sender LIKE concat(concat('%',#{infoProperty}),'%')
+        LIMIT #{index},#{count}
+    </select>
+
+</mapper>

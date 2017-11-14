@@ -1,0 +1,53 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.ArrangeSubjectDAO">
+
+    <!-- 查询所有毕设题目 -->
+    <select id = "queryAllArrangeSubject" resultType = "ArrangeSubject">
+        SELECT *
+        FROM tb_arrange_subject
+        ORDER BY subject_id
+    </select>
+
+    <!-- 添加毕设题目 -->
+    <insert id = "insertSubject" parameterType = "ArrangeSubject">
+        INSERT
+        INTO tb_arrange_subject(open_id, teacher_id, name, requirement)
+        VALUES(#{subject.openId}, #{subject.teacherId}, #{subject.name}, #{subject.requirement})
+    </insert>
+
+    <!-- 通过毕设id查询毕设 -->
+    <select id = "queryArrangeSubjectBySubjectId" parameterType = "int" resultType = "ArrangeSubject">
+        SELECT subject_id, open_id, teacher_id, name, requirement
+        FROM tb_arrange_subject
+        WHERE subject_id = #{subjectId}
+    </select>
+
+    <!-- 通过教师id查询毕设 -->
+    <select id = "queryArrangeSubjectByTeacherId" parameterType = "int" resultType="ArrangeSubject">
+        SELECT *
+        FROM tb_arrange_subject
+        WHERE teacher_id = #{teacherId}
+    </select>
+
+    <!-- 查询所有课题id -->
+    <select id = "queryAllArrangeSubjectId" resultType = "Integer">
+        SELECT subject_id
+        FROM tb_arrange_subject
+        ORDER BY subject_id
+    </select>
+
+    <!-- 删除课题 -->
+    <delete id="deleteSubject">
+        DELETE
+        FROM tb_arrange_subject
+        WHERE subject_id = #{subjectId}
+    </delete>
+
+    <update id="updateSubject">
+        UPDATE tb_arrange_subject
+        SET name = #{subjectName}, requirement = #{requirement}
+        WHERE subject_id = #{subjectId}
+    </update>
+</mapper>

@@ -1,0 +1,75 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.ConfirmSubjectDAO">
+
+    <!-- 添加定题学生 -->
+    <insert id = "insertConfirmSubject" parameterType = "confirmSubject">
+        INSERT
+        INTO tb_confirm_subject(student_id, subject_id)
+        VALUES(#{confirmSubject.studentId}, #{confirmSubject.subjectId})
+    </insert>
+
+    <!-- 通过学生id查询学生毕设选择情况 -->
+    <select id = "queryStudentSubjectByStudentId" parameterType = "int" resultType = "ConfirmSubject">
+        SELECT *
+        FROM tb_confirm_subject
+        WHERE student_id = #{studentId}
+        ORDER BY subject_id
+    </select>
+
+    <!-- 查询所有已选毕设id -->
+    <select id = "queryAllConfirmSubjectId" resultType = "Integer">
+        SELECT subject_id
+        FROM tb_confirm_subject
+        ORDER BY subject_id
+    </select>
+
+    <!-- 查询所有已选毕设id -->
+    <select id = "queryAllConfirmSubject" resultType = "ConfirmSubject">
+        SELECT *
+        FROM tb_confirm_subject
+    </select>
+
+    <!-- 通过学生id更改学生毕设成绩 -->
+    <update id = "updateStudentSubjectGradeByStudentId">
+        UPDATE tb_confirm_subject
+        SET grade = #{subjectGrade}
+        WHERE student_id = #{studentId}
+    </update>
+
+    <!-- 通过毕设id更改学生毕设成绩 -->
+    <update id = "updateStudentSubjectGradeBySubjectId">
+        UPDATE tb_confirm_subject
+        SET grade = #{subjectGrade}
+        WHERE subject_id = #{subjectId}
+    </update>
+
+    <!-- 通过学生id更改学生文档 -->
+    <update id = "updateStudentDocumentByStudentId" >
+        UPDATE tb_confirm_subject
+        SET document = #{subjectDocument}
+        WHERE student_id = #{studentId}
+    </update>
+
+    <!--通过毕设id更改学生毕设文档 -->
+    <update id = "updateStudentDocumentBySubjectId">
+        UPDATE tb_confirm_subject
+        SET document = #{subjectDocument}
+        WHERE subject_id = #{subjectId}
+    </update>
+
+    <!-- 通过毕设Id查看课设 -->
+    <select id = "querySubjectBySubjectId" parameterType = "int" resultType="ConfirmSubject">
+        SELECT *
+        FROM tb_confirm_subject
+        WHERE subject_id = #{subjectId}
+    </select>
+
+    <delete id="cancelSubject">
+        DELETE
+        FROM tb_confirm_subject
+        WHERE subject_id = #{subjectId}
+    </delete>
+
+</mapper>

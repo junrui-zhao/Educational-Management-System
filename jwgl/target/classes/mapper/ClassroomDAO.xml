@@ -1,0 +1,59 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.ClassroomDAO">
+
+    <insert id="insertClassroom">
+        INSERT INTO tb_classroom
+        VALUES (#{classroom}, #{peopleNum})
+    </insert>
+
+    <delete id="deleteClassroom" parameterType = "String">
+        DELETE FROM tb_classroom
+        WHERE classroom = #{classroom}
+    </delete>
+
+    <update id="updateClassroom">
+        UPDATE tb_classroom
+        SET classroom = #{newRoomName},people_num = #{peopleNum}
+        WHERE classroom = #{classroom}
+    </update>
+
+    <select id="selectClassroom" parameterType="String" resultType="ClassroomEntity">
+        SELECT *
+        FROM tb_classroom
+        WHERE classroom = #{classroom}
+    </select>
+
+    <select id="selectClassroomByLimit" resultType="ClassroomEntity">
+        SELECT *
+        FROM tb_classroom
+        WHERE classroom LIKE concat(concat('%',#{classroomProperty}),'%') OR people_num LIKE concat(concat('%',#{classroomProperty}),'%')
+        LIMIT #{index},#{count}
+    </select>
+
+    <select id="selectFreeClassroom" resultType="ClassroomEntity">
+        SELECT *
+        FROM tb_classroom
+        WHERE classroom NOT IN (
+                SELECT classroom
+                FROM vw_schedule
+                WHERE school_year = #{schoolYear} AND term = #{term} AND day = #{day}
+                AND if(start_time>#{startTime},start_time,#{startTime})<![CDATA[ < ]]> if(end_time<![CDATA[ < ]]>#{endTime},end_time,#{endTime})
+                AND if(start_week>#{startWeek},start_week,#{startWeek})<![CDATA[ < ]]> if(end_week<![CDATA[ < ]]>#{endWeek},end_week,#{endWeek}))
+    </select>
+
+    <select id="countAllClassroom" resultType="int">
+        SELECT COUNT(*) FROM tb_classroom
+        WHERE classroom LIKE concat(concat('%',#{classroomProperty}),'%') OR people_num LIKE concat(concat('%',#{classroomProperty}),'%')
+    </select>
+
+    <select id="selectAllClassroom" resultType="ClassroomEntity">
+        SELECT * FROM tb_classroom;
+    </select>
+
+    <!--通过教室名称查询教室信息-->
+    <select id="queryClassroomByName" parameterType="String" resultType="ClassroomEntity">
+        SELECT * FROM tb_classroom WHERE classroom = #{name};
+    </select>
+</mapper>

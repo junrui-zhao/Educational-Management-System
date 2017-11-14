@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.TeachCourseDAO">
+    <select id="getAllOpenId" resultType="Integer">
+        SELECT open_id FROM tb_teach_course
+        WHERE teacher_id = #{teacherId}
+    </select>
+    <select id="getTeacherId" resultType="Integer">
+        SELECT teacher_id FROM tb_teach_course
+        WHERE open_id = #{openId}
+    </select>
+    <!-- 根据教师Id查询openId -->
+    <select id = "queryOpenIdByTeacherId" parameterType = "int" resultType="Integer">
+        SELECT open_id
+        FROM tb_teach_course
+        WHERE teacher_id = #{teacherId}
+    </select>
+</mapper>

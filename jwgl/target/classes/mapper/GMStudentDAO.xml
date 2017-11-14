@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.GMStudentDAO">
+
+    <!-- 通过学生id查询学生信息 -->
+    <select id = "queryStudentInfo" parameterType = "int" resultType="Student">
+        SELECT student_id,student_name,class_name,major
+        FROM tb_student
+        WHERE student_id = #{studentId}
+    </select>
+
+    <!--查询所有学生信息-->
+    <select id = "queryAllStudent" resultType="Student">
+        SELECT *
+        FROM tb_student
+    </select>
+
+    <!--根据学生id查询学生班级-->
+    <select id = "queryStudentClass" parameterType = "int" resultType="String">
+        SELECT class_name
+        FROM tb_student
+        WHERE student_id = #{studentId}
+    </select>
+
+</mapper>

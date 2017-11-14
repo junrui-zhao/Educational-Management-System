@@ -1,0 +1,72 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.TermYearDAO">
+
+    <!--根据当期时间获取学期-->
+    <select id="queryCurrentTermAndSchoolYear" resultType="TermYearEntity">
+        SELECT * FROM tb_term WHERE now() BETWEEN begin_time AND over_time;
+    </select>
+
+    <select id="queryAllTermAndSchoolYear" resultType="TermYearEntity">
+        SELECT * FROM tb_term;
+    </select>
+
+    <select id="queryRecentTermAndSchooYear" resultType="TermYearEntity">
+        SELECT * FROM tb_term ORDER BY id DESC LIMIT 1;
+    </select>
+
+    <insert id = "insertTerm">
+        INSERT INTO tb_term(
+    `school_year`,
+    `term`,
+    `begin_time`,
+    `over_time`
+  )
+        VALUES (#{schoolYear},#{term},#{beginTime},#{overTime})
+    </insert>
+
+    <delete id = "deleteTerm">
+        DELETE
+        FROM tb_term
+        WHERE id = #{id}
+    </delete>
+
+    <update id = "updateTerm">
+        UPDATE tb_term
+        SET school_year = #{schoolYear},term = #{term},begin_time = #{beginTime},over_time = #{overTime}
+        WHERE id = #{id}
+    </update>
+
+    <select id = "selectTerm" resultType = "TermYearEntity">
+        SELECT *
+        FROM tb_term
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectAllTerm" resultType="TermYearEntity">
+        SELECT *
+        FROM tb_term
+    </select>
+
+    <select id="countAllTerm" resultType="int">
+        SELECT COUNT(*) FROM tb_term
+        WHERE id LIKE concat(concat('%',#{termProperty}),'%')
+        OR school_year LIKE concat(concat('%',#{termProperty}),'%')
+        OR term LIKE concat(concat('%',#{termProperty}),'%')
+        OR begin_time LIKE concat(concat('%',#{termProperty}),'%')
+        OR over_time LIKE concat(concat('%',#{termProperty}),'%')
+    </select>
+
+    <select id="selectTermByLimit" resultType="TermYearEntity">
+        SELECT *
+        FROM tb_term
+        WHERE id LIKE concat(concat('%',#{termProperty}),'%')
+        OR school_year LIKE concat(concat('%',#{termProperty}),'%')
+        OR term LIKE concat(concat('%',#{termProperty}),'%')
+        OR begin_time LIKE concat(concat('%',#{termProperty}),'%')
+        OR over_time LIKE concat(concat('%',#{termProperty}),'%')
+        LIMIT #{index},#{count}
+    </select>
+
+</mapper>

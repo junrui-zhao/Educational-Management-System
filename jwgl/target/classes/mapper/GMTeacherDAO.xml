@@ -1,0 +1,12 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.GMTeacherDAO">
+
+    <!-- 根据教师Id查询教师信息 -->
+    <select id = "queryTeacherById" parameterType = "int" resultType="Teacher">
+        SELECT teacher_id,teacher_name,title,password
+        FROM tb_teacher
+        WHERE teacher_id = #{teacherId}
+    </select>
+</mapper>

@@ -1,0 +1,74 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.CourseDAO">
+    <!-- 添加样品 -->
+
+    <insert id = "insertCourse" >
+        INSERT INTO tb_course
+        VALUES ( #{courseId},#{courseName},#{credit},#{nature},#{department} )
+    </insert>
+
+    <insert id = "insertCourseNoCre" >
+       INSERT INTO tb_course(course_id,course_name,nature,department)
+        VALUES ( #{courseId},#{courseName},#{nature},#{department} )
+
+    </insert>
+
+    <delete id = "deleteCourse"  parameterType = "String">
+
+      DELETE FROM tb_course
+      WHERE course_id = #{courseId}
+
+    </delete>
+
+    <update id = "updateCourse" >
+      UPDATE tb_course
+      set course_name = #{courseName},credit = #{credit},nature = #{nature},department = #{department}
+      WHERE course_id = #{courseId}
+
+    </update>
+
+    <update id = "updateCourseNoCre" >
+        UPDATE tb_course
+        set course_name = #{courseName},nature = #{nature},credit = NULL ,department = #{department}
+        WHERE course_id = #{courseId}
+    </update>
+
+    <select id = "selectCourse"  resultType = "CourseEntity">
+      SELECT *
+      FROM tb_course
+      where course_id = #{courseId}
+    </select>
+
+    <select id="selectCourseByLimit" resultType="CourseEntity">
+        SELECT *
+        FROM tb_course
+        WHERE course_id LIKE concat(concat('%',#{courseProperty}),'%')
+              OR course_name LIKE concat(concat('%',#{courseProperty}),'%')
+              OR nature LIKE concat(concat('%',#{courseProperty}),'%')
+              OR department LIKE concat(concat('%',#{courseProperty}),'%')
+        LIMIT #{index},#{count}
+    </select>
+
+    <select id="countAllCourse" resultType="int">
+        SELECT COUNT(*) FROM tb_course
+        WHERE course_id LIKE concat(concat('%',#{courseProperty}),'%')
+              OR course_name LIKE concat(concat('%',#{courseProperty}),'%')
+              OR nature LIKE concat(concat('%',#{courseProperty}),'%')
+              OR department LIKE concat(concat('%',#{courseProperty}),'%')
+    </select>
+
+    <select id = "selectAllCourse"  resultType="CourseEntity">
+     SELECT  course_id,course_name,credit,nature,department
+     FROM tb_course
+    </select>
+
+    <!--通过课程Id查询课程-->
+    <select id="queryCourseById" parameterType="String" resultType="Course">
+        SELECT *
+        FROM tb_course
+        WHERE course_id = #{courseId};
+    </select>
+
+</mapper>

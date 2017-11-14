@@ -1,0 +1,60 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.ScheduleDAO">
+
+    <insert id="insertSchedule">
+        INSERT INTO tb_arrangement
+        VALUES (null,#{openId},#{teacherId},#{classroom},#{className},#{day},#{startWeek},#{endWeek},#{startTime},#{endTime})
+    </insert>
+
+    <delete id="deleteSchedule">
+        DELETE FROM tb_arrangement
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateSchedule">
+        UPDATE tb_arrangement
+        SET open_id = #{openId}, teacher_id = #{teacherId}, classroom=#{classroom},day=#{day},start_week=#{startWeek},end_week=#{endWeek},start_time=#{startTime},end_time=#{endTime}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectClashSchedule" resultType="ScheduleEntity">
+        SELECT *
+        FROM vw_schedule
+        WHERE school_year = #{schoolYear} AND term = #{term} AND day = #{day} AND open_id != #{openId}
+        AND if(start_time > #{startTime} ,start_time, #{startTime}) <![CDATA[ <= if(end_time < ]]>#{endTime},end_time,#{endTime})
+        AND if(start_week>#{startWeek},start_week,#{startWeek}) <![CDATA[ <= if(end_week < ]]>#{endWeek},end_week,#{endWeek})
+        AND (classroom = #{classroom} OR teacher_id = #{teacherId} OR class_name = #{className})
+    </select>
+
+    <select id="selectScheduleByOpenId" resultType="ScheduleEntity">
+        SELECT *
+        FROM vw_schedule
+        WHERE open_id = #{openId}
+    </select>
+
+    <select id="selectScheduleByTeacherId" resultType="TeacherScheduleEntity">
+        SELECT *
+        FROM vw_teacher_schedule
+        WHERE teacher_id = #{teacherId} AND school_year = #{schoolYear} AND term = #{term}
+    </select>
+
+    <select id="selectScheduleByStudentId" resultType="ScheduleEntity">
+        SELECT *
+        FROM vw_student_schedule
+        WHERE student_id = #{studentId} AND school_year = #{schoolYear} AND term = #{term}
+    </select>
+
+    <select id="selectScheduleByMajor" resultType="ScheduleEntity">
+        SELECT *
+        FROM vw_major_schedule
+        WHERE major = #{major} AND school_year = #{schoolYear} AND term = #{term}
+    </select>
+
+    <select id="selectScheduleByArrangementId" resultType="ScheduleEntity">
+        SELECT *
+        FROM tb_arrangement
+        WHERE id = #{arrangementId};
+    </select>
+</mapper>

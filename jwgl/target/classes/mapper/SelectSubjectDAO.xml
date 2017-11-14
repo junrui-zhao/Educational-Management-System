@@ -1,0 +1,88 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.SelectSubjectDAO">
+
+    <!-- 添加预选学生 -->
+    <insert id = "insertSelectSubject" parameterType = "selectSubject">
+        INSERT
+        INTO tb_select_subject(student_id, subject_id, status)
+        VALUES(#{selectSubject.studentId}, #{selectSubject.subjectId}, #{selectSubject.status})
+    </insert>
+
+    <!-- 通过毕设id查询学生预选情况 -->
+    <select id = "querySelectSubjectBySubjectId" parameterType = "int" resultType = "SelectSubject">
+        SELECT *
+        FROM tb_select_subject
+        WHERE subject_id = #{subjectId}
+        ORDER BY student_id
+    </select>
+
+    <!-- 通过毕设id删除确定学生
+    <delete id = "deleteStudentBySubjectId" parameterType = "int">
+        DELETE
+        FROM tb_select_subject
+        WHERE student_id = #{studentId}
+    </delete>
+    -->
+
+    <!-- 通过毕设id更改学生状态-->
+    <update id = "updateStatusBySubjectId" >
+        UPDATE tb_select_subject
+        SET status = #{studentStatus}
+        WHERE subject_id = #{subjectId}
+    </update>
+
+
+    <!-- 通过毕设id和状态查询学生预选情况 -->
+    <select id = "querySelectSubjectBySubjectIdAndStatus" resultType = "SelectSubject">
+        SELECT *
+        FROM tb_select_subject
+        WHERE subject_id = #{subjectId} AND status = #{status}
+        ORDER BY student_id
+    </select>
+
+    <!-- 通过学生id和状态查询预选情况-->
+    <select id = "querySelectSubjectByStudentIdAndStatus" resultType = "SelectSubject">
+        SELECT *
+        FROM tb_select_subject
+        WHERE student_id = #{studentId} AND status = #{status}
+        ORDER BY subject_id
+    </select>
+
+    <!-- 通过学生Id查询某学生已选过的课题id -->
+    <select id = "queryAllSelectSubjectIdByStudentId" parameterType = "int" resultType="Integer">
+        SELECT subject_id
+        FROM tb_select_subject
+        WHERE student_id = #{studentId}
+        ORDER BY subject_id
+    </select>
+
+    <!-- 通过毕设id和学生id查询课题 -->
+    <select id = "queryStudentSubjectBySubjectIdAndStudentId" resultType="SelectSubject">
+        SELECT *
+        FROM tb_select_subject
+        WHERE student_id = #{studentId} AND subject_id = #{subjectId}
+    </select>
+
+    <!-- 通过毕设id和学生id删除学生 -->
+    <delete id = "deleteStudentBySubjectIdAndStudentId" >
+        DELETE
+        FROM tb_select_subject
+        WHERE student_id = #{studentId} AND subject_id = #{subjectId}
+    </delete>
+
+    <!-- 通过毕设id删除课题 -->
+    <delete id = "deleteSubjectBySubjectId" >
+        DELETE
+        FROM tb_select_subject
+        WHERE subject_id = #{subjectId}
+    </delete>
+
+    <select id="querySelectNumber" resultType="Integer">
+        SELECT count(*)
+        FROM tb_select_subject
+        WHERE subject_id = #{subjectId} AND status = 0
+    </select>
+
+</mapper>

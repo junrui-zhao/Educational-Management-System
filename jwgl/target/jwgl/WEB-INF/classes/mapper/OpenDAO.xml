@@ -1,0 +1,57 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.OpenDAO">
+
+    <insert id="insertOpen">
+        INSERT INTO tb_open
+        VALUES (null,#{courseId},#{schoolYear},#{term},#{peopleNum},#{startSelectTime},#{endSelectTime})
+    </insert>
+
+    <delete id="deleteOpen">
+        DELETE FROM tb_open
+        WHERE open_id = #{openId}
+    </delete>
+
+    <update id="updateOpen">
+        UPDATE tb_open
+        SET course_id = #{courseId}, school_year = #{schoolYear}, term = #{term}, people_num = #{peopleNum},start_select_time = #{startSelectTime},end_select_time = #{endSelectTime}
+        WHERE open_id = #{openId}
+    </update>
+
+    <select id="selectOpenBySchoolYearAndTerm" resultType="OpenEntity">
+        SELECT *
+        FROM vw_open
+        WHERE school_year = #{schoolYear} AND term = #{term}
+    </select>
+
+    <select id="selectLastInsertId" resultType="int">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <select id="selectOpenByOpenId" resultType="OpenEntity">
+        SELECT * FROM tb_open WHERE open_id = #{openId};
+    </select>
+
+    <select id="selectOpenByCourseId" resultType="OpenEntity">
+        SELECT * FROM tb_open
+        WHERE course_id = #{courseId}
+    </select>
+
+    <select id="selectAllOpen" resultType="OpenEntity">
+        SELECT * FROM  tb_open
+    </select>
+
+    <!--通过开设id查询开设信息-->
+    <select id="queryOpenById" parameterType="int" resultType="Open">
+        SELECT * FROM tb_open WHERE open_id = #{openId};
+    </select>
+
+    <select id="queryOpenIdByTermAndYear" resultType="Open">
+        SELECT * FROM tb_open WHERE term = #{0} AND school_year = #{1};
+    </select>
+    <select id="queryOpenIdByCourseId" resultType="Open">
+        SELECT * FROM tb_open WHERE course_id = #{courseId};
+    </select>
+
+</mapper>

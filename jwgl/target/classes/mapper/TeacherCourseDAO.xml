@@ -1,0 +1,16 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.TeacherCourseDAO">
+
+    <!--通过教师id查询授课信息-->
+    <select id="queryTeacherCourseByTeacherId" parameterType="int" resultType="TeacherCourse">
+        SELECT * FROM tb_teach_course WHERE teacher_id = #{teacher_id};
+    </select>
+
+    <!--通过开设id查询授课信息-->
+    <select id="queryTeacherCourseByOpenId" parameterType="int" resultType="TeacherCourse">
+        SELECT * FROM tb_teach_course WHERE open_id = #{open_id};
+    </select>
+
+</mapper>

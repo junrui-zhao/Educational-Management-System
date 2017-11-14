@@ -1,0 +1,63 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.TeacherDAO">
+    <!-- 添加样品 -->
+    <update id="updateTeacher">
+        UPDATE tb_teacher
+        set teacher_name = #{1}, title = #{2}
+        WHERE teacher_id = #{0}
+    </update>
+
+    <update id="updateTeacherPassword">
+        UPDATE tb_teacher
+        set password = #{1}
+        WHERE teacher_id = #{0}
+    </update>
+
+    <select id="selectAllTeacher" resultType="TeacherEntity">
+        select *
+        from tb_teacher
+        order by teacher_id ASC
+    </select>
+
+    <select id="selectTeacher" resultType="TeacherEntity">
+        select *
+        from tb_teacher
+        WHERE teacher_id = #{teacherId}
+    </select>
+
+    <select id="selectTeacherByLimit" resultType="TeacherEntity">
+        SELECT *
+        FROM tb_teacher
+        WHERE teacher_id LIKE CONCAT(CONCAT('%', #{teacherProperty}), '%')
+        or teacher_name like CONCAT(CONCAT('%', #{teacherProperty}), '%')
+        or  title like CONCAT(CONCAT('%', #{teacherProperty}), '%')
+        LIMIT #{index},#{count}
+    </select>
+
+
+    <select id="countAllTeacher" resultType="int">
+        SELECT COUNT(*) FROM tb_teacher
+        WHERE teacher_id LIKE CONCAT(CONCAT('%', #{teacherProperty}), '%')
+              or teacher_name like CONCAT(CONCAT('%', #{teacherProperty}), '%')
+              or  title like CONCAT(CONCAT('%', #{teacherProperty}), '%')
+    </select>
+
+    <insert id="insertTeacher" >
+        INSERT INTO tb_teacher
+        VALUES (#{0},#{1},#{2},#{3})
+    </insert>
+
+    <delete id="deleteTeacher">
+        DELETE
+        FROM tb_teacher
+        WHERE teacher_id = #{teacherId}
+    </delete>
+
+    <!--通过教师Id查询教师-->
+    <select id="queryTeacherById" parameterType="int" resultType="Teacher">
+        SELECT * FROM tb_teacher WHERE teacher_id = #{teacherId};
+    </select>
+
+</mapper>

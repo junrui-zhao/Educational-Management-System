@@ -1,0 +1,21 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.ArrangementDAO">
+
+    <!--获取全部安排信息-->
+    <select id="queryAllArrangement" resultType="Arrangement">
+        SELECT * FROM tb_arrangement;
+    </select>
+
+    <!--通过开设id获取安排信息-->
+    <select id="queryArrangementByOpenId" parameterType="int" resultType="Arrangement">
+        SELECT * FROM tb_arrangement WHERE open_id = #{openId};
+    </select>
+
+    <!--通过教师id获取安排信息-->
+    <select id="queryArrangementByTeacherId" parameterType="int" resultType="Arrangement">
+        SELECT * FROM tb_arrangement WHERE teacher_id = #{teacherId};
+    </select>
+
+</mapper>

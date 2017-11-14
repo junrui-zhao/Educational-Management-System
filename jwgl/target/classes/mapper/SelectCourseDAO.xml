@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crtvu.dao.SelectCourseDAO">
+
+    <update id="updateEvaluate">
+        UPDATE tb_select_course
+        SET evaluate = #{evaluate}
+        WHERE student_id = #{studentId} AND open_id = #{openId}
+    </update>
+
+    <update id="updateGrade">
+        UPDATE tb_select_course
+        SET grade = #{grade}
+        WHERE student_id = #{studentId} AND open_id = #{openId}
+    </update>
+
+    <select id="selectGradeByStudentId" resultType="SelectCourseEntity" parameterType="Integer">
+        SELECT *
+        FROM tb_select_course
+        WHERE student_id = #{studentId}
+    </select>
+
+    <select id="selectGradeByStuIdOpenId" resultType="SelectCourseEntity">
+        SELECT *
+        FROM tb_select_course
+        WHERE student_id = #{studentId} AND open_id = #{openId}
+    </select>
+
+    <select id="selectGradeByOpenId" resultType="SelectCourseEntity" >
+        SELECT *
+        FROM tb_select_course
+        WHERE open_id = #{openId}
+    </select>
+</mapper>
